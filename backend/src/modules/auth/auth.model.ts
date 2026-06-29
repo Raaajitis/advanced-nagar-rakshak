@@ -1,5 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose";
-import { UserRole } from "../../types/user-role";
+import mongoose, { Document, Schema } from "mongoose";
+
+export type UserRole = "citizen" | "admin";
 
 export interface IUser extends Document {
   fullName: string;
@@ -17,6 +18,8 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
       trim: true,
+      minlength: 3,
+      maxlength: 100,
     },
 
     email: {
@@ -36,12 +39,13 @@ const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: true,
+      minlength: 6,
     },
 
     role: {
       type: String,
-      enum: Object.values(UserRole),
-      default: UserRole.CITIZEN,
+      enum: ["citizen", "admin"],
+      default: "citizen",
     },
   },
   {
@@ -49,7 +53,4 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-export const User = mongoose.model<IUser>(
-  "User",
-  userSchema
-);
+export const User = mongoose.model<IUser>("User", userSchema);
