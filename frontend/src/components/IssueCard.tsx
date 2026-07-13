@@ -11,7 +11,9 @@ interface IssueCardProps {
 export const getImageUrl = (url: string) => {
   if (!url) return "/placeholder-issue.png"; // Fallback placeholder
   if (url.startsWith("http")) return url;
-  return `http://localhost:5000/uploads/${url}`;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+  const baseUrl = apiUrl.replace(/\/api$/, "");
+  return `${baseUrl}/uploads/${url}`;
 };
 
 export const IssueCard: React.FC<IssueCardProps> = ({ issue, onViewDetails }) => {
