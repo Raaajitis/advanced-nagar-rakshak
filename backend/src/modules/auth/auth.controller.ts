@@ -11,6 +11,7 @@ import {
 } from "./auth.service";
 
 import { sendResponse } from "../../utils/response";
+import { env } from "../../config/env";
 
 export const register = async (
   req: Request,
@@ -54,12 +55,12 @@ export const login = async (
     const { user, token } =
       await loginUser(data);
 
+    const isProduction = env.NODE_ENV === "production";
     res.cookie("accessToken", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge:
-        7 * 24 * 60 * 60 * 1000,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return sendResponse(
@@ -89,7 +90,12 @@ export const logout = async (
   req: Request,
   res: Response
 ) => {
-  res.clearCookie("accessToken");
+  const isProduction = env.NODE_ENV === "production";
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+  });
 
   return sendResponse(
     res,
