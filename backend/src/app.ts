@@ -6,6 +6,7 @@ import morgan from "morgan";
 import authRoutes from "./modules/auth/auth.routes";
 import routes from "./routes";
 import path from "path";
+import { env } from "./config/env";
 
 const app = express();
 
@@ -13,7 +14,9 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: env.FRONTEND_URL.includes(",")
+      ? env.FRONTEND_URL.split(",")
+      : env.FRONTEND_URL,
     credentials: true
   })
 );
