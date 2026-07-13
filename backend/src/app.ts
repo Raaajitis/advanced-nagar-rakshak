@@ -6,9 +6,16 @@ import morgan from "morgan";
 import authRoutes from "./modules/auth/auth.routes";
 import routes from "./routes";
 import path from "path";
+import fs from "fs";
 import { env } from "./config/env";
 
 const app = express();
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(process.cwd(), "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 app.use(helmet());
 
