@@ -50,7 +50,8 @@ export default function CitizenDashboardPage() {
         // Filter issues created by this user
         const filtered = data.filter((issue) => {
           const creatorId = typeof issue.createdBy === "object" ? issue.createdBy._id : issue.createdBy;
-          return creatorId === user.id;
+          const currentUserId = user.id || (user as any)._id;
+          return creatorId === currentUserId;
         });
 
         setMyIssues(filtered);
