@@ -191,20 +191,6 @@ npm run dev
 
 ---
 
-## Screenshots
-
-The following screenshots may be included for demonstration purposes:
-
-* Landing Page
-* Login Page
-* Registration Page
-* Citizen Dashboard
-* Administrator Dashboard
-* Report Issue Page
-* Issue Feed
-* Interactive Map
-
----
 
 ## Future Enhancements
 
